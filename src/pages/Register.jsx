@@ -33,7 +33,7 @@ export default function Register() {
     e.preventDefault();
     setIsSubmitting(true);
     axios
-      .post(`http://igolfbackend.runasp.net/api/auth/register`, formData)
+      .post(`https://igolf.runasp.net/api/auth/register`, formData)
       .then(() => {
         notify();
         navigate("/login");

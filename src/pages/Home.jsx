@@ -36,7 +36,7 @@ export default function Home() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://igolfbackend.runasp.net/api/courses?state=${state}`)
+      .get(`https://igolf.runasp.net/api/courses?state=${state}`)
       .then((response) => {
         setCourses(response.data);
       })
