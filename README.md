@@ -32,3 +32,4 @@ Additional Notes
 - State Management: Zustand is used for state management. It provides a simple and flexible API for managing global state.
 - Styling: Tailwind CSS is used for styling the application. It provides utility-first CSS classes for rapid UI development.
 - UI Components: Headless UI provides accessible and customizable UI components that work well with Tailwind CSS.
+- Run Frontend code using 'npm run dev'
