@@ -13,7 +13,6 @@ Features
 - State management with Zustand.
 - Interactive UI components with Headless UI.
 - Routing with React Router DOM.
-- HTTP requests with Axios.
 
 Technologies Used
 --------------------------------
