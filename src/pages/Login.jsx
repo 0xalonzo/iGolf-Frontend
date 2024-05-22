@@ -32,9 +32,10 @@ export default function Login() {
     e.preventDefault();
     setIsSubmitting(true);
     axios
-      .post(`https://igolf.runasp.net/api/auth/login`, formData)
+      .post(`https://igolf-backend.runasp.net/api/auth/login`, formData)
       .then((response) => {
         const { user, token } = response.data;
+        console.log(response.data);
         setUser(user);
         setToken(token);
         notify();

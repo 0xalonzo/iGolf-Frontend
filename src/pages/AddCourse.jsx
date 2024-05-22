@@ -53,7 +53,7 @@ export default function AddCourse() {
     e.preventDefault();
     setIsSubmitting(true);
     axios
-      .post(`https://igolf.runasp.net/api/courses`, formData, {
+      .post(`https://igolf-backend.runasp.net/api/courses`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {

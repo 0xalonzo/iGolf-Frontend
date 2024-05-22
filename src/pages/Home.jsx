@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Description, Field, Label, Select } from "@headlessui/react";
+import { Button, Description, Field, Label, Select } from "@headlessui/react";
 import { ChevronDownIcon, StarIcon } from "@heroicons/react/20/solid";
+import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 
 import Container from "../components/Container";
 import Loader from "../components/Loader";
@@ -25,18 +27,23 @@ const states = [
 export default function Home() {
   const [state, setState] = useState(states[0].value);
   const [courses, setCourses] = useState([]);
-  const filteredCourses = courses.filter(
+
+  const sortedCourses = sortCourses(courses);
+
+  const filteredCourses = sortedCourses.filter(
     (course) => course.state.toLowerCase().replace(/\s+/g, "-") === state
   );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { user } = useAuthStore();
+  const { user, setUser, token } = useAuthStore();
+
+ // console.log(user);
 
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`https://igolf.runasp.net/api/courses?state=${state}`)
+      .get(`https://igolf-backend.runasp.net/api/courses?state=${state}`)
       .then((response) => {
         setCourses(response.data);
       })
@@ -47,6 +54,53 @@ export default function Home() {
         setIsLoading(false);
       });
   }, [state]);
+
+  function handleAddToFavourite(course) {
+    axios
+      .post(
+        `https://igolf-backend.runasp.net/api/favorites/${user.id}/${course.id}`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        const updatedUser = {
+          ...user,
+          favoriteCourses: [...user.favoriteCourses, course],
+        };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {});
+  }
+
+  function handleRemoveFromFavourite(course) {
+    axios
+      .delete(
+        `https://igolf-backend.runasp.net/api/favorites/${user.id}/${course.id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        const updatedUser = {
+          ...user,
+          favoriteCourses: user.favoriteCourses.filter(
+            (c) => c.id !== course.id
+          ),
+        };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {});
+  }
 
   return (
     <Container className="py-16 grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -108,23 +162,49 @@ export default function Home() {
               Here are the courses:
             </h2>
             {filteredCourses.map((course) => (
-              <div key={course.name} className="bg-green-200 p-3 rounded-md">
-                <h3 className="font-semibold text-green-800">{course.name}</h3>
-                <p className="text-sm text-green-700">
-                  {course.location},{" "}
-                  {states.find((s) => s.value === course.state).label}
-                </p>
-                <p className="text-sm mt-2">
-                  Designed by:{" "}
-                  <span className="font-medium">{course.designer}</span>
-                </p>
-                <div className="flex text-sm mt-1 gap-8">
-                  <p>Par: {course.par}</p>
-                  <p>Holes: {course.holes}</p>
-                  <p className="inline-flex items-center gap-1">
-                    Rating: {course.rating} <StarIcon className="h-4 w-4" />
+              <div
+                key={course.name}
+                className="bg-green-200 p-3 rounded-md flex justify-between items-start"
+              >
+                <div>
+                  <h3 className="font-semibold text-green-800">
+                    {course.name}
+                  </h3>
+                  <p className="text-sm text-green-700">
+                    {course.location},{" "}
+                    {states.find((s) => s.value === course.state).label}
                   </p>
+                  <p className="text-sm mt-2">
+                    Designed by:{" "}
+                    <span className="font-medium">{course.designer}</span>
+                  </p>
+                  <div className="flex text-sm mt-1 gap-8">
+                    <p>Par: {course.par}</p>
+                    <p>Holes: {course.holes}</p>
+                    <p className="inline-flex items-center gap-1">
+                      Rating: {course.rating} <StarIcon className="h-4 w-4" />
+                    </p>
+                  </div>
                 </div>
+                {token && (
+                  <div>
+                    {user.favoriteCourses.some((c) => c.id === course.id) ? (
+                      <Button
+                        className="p-2"
+                        onClick={() => handleRemoveFromFavourite(course)}
+                      >
+                        <HeartIconSolid className="h-6 w-6 text-red-600" />
+                      </Button>
+                    ) : (
+                      <Button
+                        className="p-2"
+                        onClick={() => handleAddToFavourite(course)}
+                      >
+                        <HeartIcon className="h-6 w-6" />
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </>
@@ -133,3 +213,7 @@ export default function Home() {
     </Container>
   );
 }
+
+const sortCourses = (courses) => {
+  return courses.slice().sort((a, b) => a.name.localeCompare(b.name));
+};
