@@ -2,7 +2,7 @@ iGolf Frontend - Alonzo Garcia
 --------------------------------
 https://igolf.vercel.app/
 --------------------------------
-The iGolf Frontend is a web application built with React and several modern libraries to provide a responsive and interactive user interface for managing golf course data. This project communicates with the iGolf Backend API to perform CRUD operations and user authentication.
+The iGolf Frontend is a web application built with React and several modern libraries to provide a responsive and interactive user interface for managing golf course data. This project communicates with the iGolf Backend API to perform CRUD operations and user authentication. Password encryption is also implemented.
 --------------------------------
 Features
 --------------------------------
@@ -13,6 +13,7 @@ Features
 - State management with Zustand.
 - Interactive UI components with Headless UI.
 - Routing with React Router DOM.
+- Users are able to store favorite courses.
 
 Technologies Used
 --------------------------------
