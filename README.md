@@ -14,6 +14,12 @@ Features
 - Interactive UI components with Headless UI.
 - Routing with React Router DOM.
 - Users are able to store favorite courses.
+![imagee](https://github.com/0xalonzo/iGolf-Frontend/assets/124635098/ed83d02d-0ccf-4636-b539-9553de4c9c71)
+![imageee](https://github.com/0xalonzo/iGolf-Frontend/assets/124635098/1ceb073f-28b6-4e15-b123-25d7d580b573)
+![imageeee](https://github.com/0xalonzo/iGolf-Frontend/assets/124635098/900fd250-74ea-4f3c-a20a-8a137fe5d232)
+![imageeeee](https://github.com/0xalonzo/iGolf-Frontend/assets/124635098/1b1d4d9d-e9c1-4547-bbbe-d6ff2f6dbe09)
+![imageeeeee](https://github.com/0xalonzo/iGolf-Frontend/assets/124635098/16cabc37-006e-466d-bb56-57bc5a9111a1)
+![imageeeeeee](https://github.com/0xalonzo/iGolf-Frontend/assets/124635098/8513d40b-a3bd-43a4-b80d-8121a9cc0473)
 
 Technologies Used
 --------------------------------
@@ -34,3 +40,5 @@ Additional Notes
 - UI Components: Headless UI provides accessible and customizable UI components that work well with Tailwind CSS.
 - Ensure to remove any ad blockers
 - Run Frontend code using 'npm run dev'
+
+
